@@ -1,0 +1,76 @@
+/* Setzt die grundlegenden Stile */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Wrapper für den Inhalt */
+.wrapper {
+    min-height: calc(100vh - 60px); /* 60px ist die Höhe des Footers */
+}
+
+/* Header-Styling */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #eaeaea;
+    padding: 10px 20px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.header-left img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.header-left h1 {
+    font-size: 24px;
+    color: #333;
+}
+
+.header-right ul {
+    list-style: none;
+    display: flex;
+}
+
+.header-right li {
+    margin-left: 20px;
+}
+
+.header-right a {
+    text-decoration: none;
+    color: #333;
+    font-size: 18px;
+}
+
+.header-right a:hover {
+    color: #007BFF;
+}
+
+/* Hauptinhalt */
+main {
+    padding: 20px;
+}
+
+/* Footer-Styling */
+footer {
+    height: 60px;
+    background-color: #f1f1f1;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+
+footer p {
+    line-height: 60px; /* Vertikale Zentrierung des Textes */
+    color: #333;
+}

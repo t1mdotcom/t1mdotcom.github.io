@@ -1,0 +1,26 @@
+/* Setzt die grundlegenden Stile */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Wrapper für den Inhalt */
+.wrapper {
+    min-height: calc(100vh - 60px); /* 60px ist die Höhe des Footers */
+}
+
+/* Footer-Styling */
+footer {
+    height: 60px;
+    background-color: #f1f1f1;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+
+footer p {
+    line-height: 60px; /* Vertikale Zentrierung des Textes */
+    color: #333;
+}

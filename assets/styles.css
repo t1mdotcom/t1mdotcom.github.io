@@ -54,6 +54,7 @@ header {
 
 .header-right li {
     margin-left: 20px;
+    color: #989898;
 }
 
 .header-right a {
@@ -92,4 +93,49 @@ footer {
 footer p {
     line-height: 60px; /* Vertikale Zentrierung des Textes */
     color: #989898;
+}
+
+/* Kontaktbereich Styling */
+#contact {
+    padding: 20px;
+}
+
+.contact-info,
+.social-links {
+    list-style: none;
+    padding: 0;
+}
+
+.contact-info li,
+.social-links li {
+    margin-bottom: 10px;
+}
+
+.social-links li {
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.social-icon {
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+.social-links a {
+    text-decoration: none;
+    color: #989898;
+    font-size: 18px;
+}
+
+.social-links a:hover {
+    color: rgba(0, 255, 26, 0.5);
+}
+
+.link {
+    text-decoration: none;
+}
+.link:hover {
+    color: rgba(0, 255, 26, 0.5);
 }

@@ -2,41 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Tim Heinemann</title>
+    <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
-    <link rel="stylesheet" href="assets/styles.css" />
+    <title>Tim Heinemann</title>
     <link rel="stylesheet" href="https://www.nerdfonts.com/assets/css/webfont.css" />
   </head>
   <body>
-    <div class="wrapper">
-      <header>
-        <div class="header-left">
-          <a href="#" data-section="home">
-		  <!--             <img src="assets/img/theinemann.jpg" alt="look-at-my-selfie" /> -->
-            <h1>Tim Heinemann</h1>
-          </a>
-        </div>
-        <nav class="header-right">
-          <ul>
-            <li><a href="#" data-section="contact">Contact</a></li>
-            <li>|</li>
-            <li><a href="#" data-section="projects">Projects</a></li>
-            <li>|</li>
-            <li><a href="#" data-section="about-me">About Me</a></li>
-          </ul>
-        </nav>
-      </header>
-
-      <main id="main-content"></main>
-    </div>
-
-    <footer>
-      <p><i class="nf nf-fa-copyright"></i> 2024 Tim Heinemann</p>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dompurify@2.4.0/dist/purify.min.js"></script>    
-    <script src="assets/scripts.js"></script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

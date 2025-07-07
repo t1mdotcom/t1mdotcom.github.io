@@ -9,7 +9,7 @@ import Contact from './pages/Contact'
 
 function App() {
   return (
-    <Router basename="/website">
+    <Router>
       <div className="wrapper">
         <Header />
         <main id="main-content">

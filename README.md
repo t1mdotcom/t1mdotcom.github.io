@@ -16,7 +16,7 @@ This is Tim Heinemann's personal website, converted from a simple HTML/CSS/JS we
 ## 🛠️ Development
 
 ### Prerequisites
-- Node.js 18 or higher
+- Node.js 22 or higher
 - npm
 
 ### Getting Started

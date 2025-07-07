@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @font-face {
   font-family: "Hack";
   src: url(/assets/fonts/HackNerdFont-Regular.ttf) format("truetype");

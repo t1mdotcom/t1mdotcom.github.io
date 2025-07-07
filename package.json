@@ -2,7 +2,7 @@
   "name": "tim-heinemann-website",
   "version": "1.0.0",
   "description": "Tim Heinemann's personal website built with React",
-  "homepage": "https://t1mdotcom.github.io/website",
+  "homepage": "https://www.heinemann.foo",
   "private": true,
   "dependencies": {
     "react": "^18.2.0",

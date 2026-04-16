@@ -1,126 +1,97 @@
-# Tim Heinemann's Personal Website
+# Tim Heinemann — Personal Portfolio
 
-This is Tim Heinemann's personal website, converted from a simple HTML/CSS/JS website to a React application while maintaining the ability to be deployed as a static site on GitHub Pages.
+Static portfolio site built with [Astro](https://astro.build/) and deployed to GitHub Pages at [www.heinemann.foo](https://www.heinemann.foo).
 
-## 🚀 Features
+## Features
 
-- **React-based**: Modern React application with component-based architecture
-- **Static Site Generation**: Built with Vite for optimal performance
-- **GitHub Pages Ready**: Automated deployment via GitHub Actions
-- **Responsive Design**: Dark theme with green accent colors
-- **Dynamic Content**: 
-  - GitHub README integration for About section
-  - Infinite scroll for Projects page
-  - Contact information with social media links
+- Astro 5 static site, TypeScript strict mode
+- Content Collections for curated project entries (Markdown + Zod-validated frontmatter)
+- Inline About content rendered at build time (no runtime fetches)
+- Hacker-Retro theme (dark `#111`, monospace, green accent)
+- Semantic HTML, skip-to-content link, WCAG AA color contrast
+- Per-page Open Graph metadata, auto-generated `sitemap.xml` + `robots.txt`
+- Zero client-side JavaScript beyond Astro defaults
 
-## 🛠️ Development
+## Prerequisites
 
-### Prerequisites
 - Node.js 22 or higher
 - npm
 
-### Getting Started
+## Getting Started
 
-1. Clone the repository
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Start the development server:
-   ```bash
-   npm run dev
-   ```
-
-4. Open [http://localhost:5173](http://localhost:5173) in your browser
-
-### Available Scripts
-
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build locally
-- `npm run deploy` - Deploy to GitHub Pages (manual)
-
-## 📁 Project Structure
-
-```
-├── public/                 # Static assets
-│   ├── assets/
-│   │   ├── fonts/         # Custom fonts
-│   │   └── img/           # Images and favicon
-│   └── CNAME              # GitHub Pages custom domain
-├── src/
-│   ├── components/        # React components
-│   │   ├── Header.jsx     # Navigation header
-│   │   └── Footer.jsx     # Site footer
-│   ├── pages/             # Page components
-│   │   ├── Home.jsx       # Home page
-│   │   ├── About.jsx      # About page with GitHub README
-│   │   ├── Projects.jsx   # Projects with infinite scroll
-│   │   └── Contact.jsx    # Contact information
-│   ├── styles/
-│   │   └── index.css      # Global styles
-│   ├── App.jsx            # Main app component with routing
-│   └── main.jsx           # React entry point
-├── .github/workflows/     # GitHub Actions
-│   └── deploy.yml         # Automated deployment
-├── package.json
-├── vite.config.js         # Vite configuration
-└── index.html             # HTML template
-```
-
-## 🚀 Deployment
-
-The website is automatically deployed to GitHub Pages when changes are pushed to the main branch. The deployment is handled by GitHub Actions.
-
-### Manual Deployment
-
-You can also deploy manually using:
 ```bash
-npm run deploy
+npm install
+npm run dev
 ```
 
-## 🎨 Customization
+Open [http://localhost:4321](http://localhost:4321).
 
-### Styling
-- Main styles are in `src/styles/index.css`
-- Uses Hack Nerd Font for consistent typography
-- Dark theme with green accent color (`rgba(0, 255, 26, 0.5)`)
+## Scripts
 
-### Content
-- **Home**: Simple page with GPG key link
-- **About**: Dynamically loads README from GitHub repository
-- **Projects**: Infinite scroll with simulated project loading
-- **Contact**: Email and social media links
+- `npm run dev` — Astro dev server
+- `npm run build` — Production build into `dist/`
+- `npm run preview` — Preview the production build
+- `npm run typecheck` — `astro check` (TypeScript + template diagnostics)
 
-### Adding New Pages
-1. Create a new component in `src/pages/`
-2. Add the route in `src/App.jsx`
-3. Update navigation in `src/components/Header.jsx`
+## Project Structure
 
-## 🔧 Configuration
+```
+.
+├── .github/workflows/deploy.yml   # GitHub Pages deploy workflow
+├── public/
+│   ├── CNAME                      # www.heinemann.foo
+│   ├── robots.txt                 # references sitemap-index.xml
+│   └── assets/{fonts,img}/        # fonts, favicon
+├── src/
+│   ├── components/Header.astro    # nav with aria-current
+│   ├── components/Footer.astro
+│   ├── content/config.ts          # projects collection schema
+│   ├── content/about.md           # About page content
+│   ├── content/projects/*.md      # Project entries
+│   ├── config.ts                  # Site config (identity, socials)
+│   ├── layouts/BaseLayout.astro   # shared shell
+│   ├── lib/projects.ts            # collection helpers
+│   ├── pages/index.astro          # Home
+│   ├── pages/about.astro          # About
+│   ├── pages/projects/index.astro # Projects list
+│   ├── pages/projects/[slug].astro# Project detail
+│   ├── pages/contact.astro        # Contact
+│   ├── pages/404.astro            # 404
+│   └── styles/global.css          # Theme
+├── astro.config.mjs
+├── tsconfig.json
+└── package.json
+```
 
-### GitHub Pages
-- Base URL is configured in `vite.config.js` as `/website/`
-- CNAME file in public directory for custom domain
-- GitHub Actions workflow handles automated deployment
+## Adding a Project
 
-### Environment
-- Built with Vite for fast development and optimized production builds
-- React Router for client-side routing
-- Marked.js for markdown parsing (About page)
-- DOMPurify for HTML sanitization
+Create `src/content/projects/my-project.md` with frontmatter:
 
-## 📝 Migration Notes
+```yaml
+---
+title: My Project
+description: One-line description (max 200 chars).
+tech: [Astro, TypeScript]
+repoUrl: https://github.com/...
+liveUrl: https://...
+date: 2026-01-01
+featured: true
+draft: false
+---
+```
 
-This project was converted from a traditional HTML/CSS/JS website to React while preserving:
-- All original functionality
-- Visual design and styling
-- GitHub Pages deployment capability
-- Custom domain support
+The schema (see `src/content/config.ts`) validates every entry at build time — `astro build` fails on missing required fields or wrong types.
 
-The conversion provides:
-- Better maintainability with component-based architecture
-- Modern development workflow
-- Improved performance with bundling and optimization
-- Type safety potential for future TypeScript migration
+## Deployment
+
+Pushing to `main` triggers `.github/workflows/deploy.yml`, which builds the site and publishes `dist/` to GitHub Pages. The `public/CNAME` keeps the custom domain.
+
+## Customization
+
+- **Theme colors and fonts** — `src/styles/global.css`
+- **Site identity and social links** — `src/config.ts`
+- **About bio** — `src/content/about.md`
+
+## Design Notes
+
+Dark background `#111`, monospace type (Hack Nerd Font → system monospace fallback), green accent `rgba(0, 255, 26, 0.5)` for interactive elements with hover/active lifting to `0.9` alpha. Header carries a green-glow box-shadow.

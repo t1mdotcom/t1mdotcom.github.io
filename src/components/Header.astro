@@ -1,0 +1,104 @@
+---
+import { siteConfig } from '../config';
+
+const currentPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
+
+const navItems = [
+  { label: 'About', href: '/about' },
+  { label: 'Projects', href: '/projects' },
+  { label: 'Contact', href: '/contact' },
+];
+
+const isActive = (href: string) => {
+  if (href === '/') return currentPath === '/';
+  return currentPath === href || currentPath.startsWith(`${href}/`);
+};
+---
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="site-header__brand" href="/">
+      <h1>{siteConfig.siteName}</h1>
+    </a>
+    <nav aria-label="Primary">
+      <ul class="site-header__nav">
+        {navItems.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              aria-current={isActive(item.href) ? 'page' : undefined}
+              class:list={['site-header__link', { 'is-active': isActive(item.href) }]}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    background-color: #010101;
+    padding: 14px 20px;
+  }
+
+  .site-header__inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .site-header__brand {
+    text-decoration: none;
+    color: #989898;
+  }
+
+  .site-header__brand h1 {
+    font-size: 1.4rem;
+    font-weight: 400;
+    margin: 0;
+  }
+
+  .site-header__nav {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .site-header__link {
+    color: #989898;
+    font-size: 1rem;
+  }
+
+  .site-header__link:hover,
+  .site-header__link:focus-visible {
+    color: rgba(0, 255, 26, 0.9);
+  }
+
+  .site-header__link.is-active {
+    color: rgba(0, 255, 26, 0.9);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  @media (max-width: 640px) {
+    .site-header__inner {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .site-header__nav {
+      width: 100%;
+      gap: 14px;
+    }
+  }
+</style>

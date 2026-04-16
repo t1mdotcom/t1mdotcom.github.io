@@ -1,0 +1,146 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { siteConfig } from '../../config';
+import { getPublishedProjects } from '../../lib/projects';
+import { Image } from 'astro:assets';
+
+const projects = await getPublishedProjects();
+
+const formatDate = (date: Date) =>
+  date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+---
+
+<BaseLayout
+  title={`Projects — ${siteConfig.siteName}`}
+  description={`Selected projects by ${siteConfig.author} — curated, recruiter-ready portfolio.`}
+>
+  <section>
+    <header class="projects__header">
+      <h1>Projects</h1>
+      <p>A selected, curated list.</p>
+    </header>
+
+    <ul class="projects__list">
+      {projects.map((entry) => (
+        <li class="project-card">
+          {entry.data.cover && (
+            <div class="project-card__cover">
+              <Image src={entry.data.cover} alt={entry.data.title} />
+            </div>
+          )}
+          <div class="project-card__body">
+            <h2 class="project-card__title">
+              <a href={`/projects/${entry.slug}/`}>{entry.data.title}</a>
+            </h2>
+            <p class="project-card__date">{formatDate(entry.data.date)}</p>
+            <p class="project-card__desc">{entry.data.description}</p>
+            <ul class="project-card__tech">
+              {entry.data.tech.map((tech) => (
+                <li>{tech}</li>
+              ))}
+            </ul>
+            <p class="project-card__links">
+              {entry.data.repoUrl && (
+                <a href={entry.data.repoUrl} target="_blank" rel="noopener">Repo &#8599;</a>
+              )}
+              {entry.data.liveUrl && (
+                <a href={entry.data.liveUrl} target="_blank" rel="noopener">Live &#8599;</a>
+              )}
+              <a href={`/projects/${entry.slug}/`}>Details &rarr;</a>
+            </p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </section>
+</BaseLayout>
+
+<style>
+  .projects__header {
+    padding: 20px 0 24px;
+    border-bottom: 1px solid #222;
+    margin-bottom: 24px;
+  }
+
+  .projects__header h1 {
+    font-size: 2rem;
+    color: #cfcfcf;
+    margin-bottom: 4px;
+  }
+
+  .projects__list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 18px;
+  }
+
+  .project-card {
+    background-color: #1a1a1a;
+    border: 1px solid #222;
+    padding: 18px;
+  }
+
+  .project-card:hover {
+    border-color: rgba(0, 255, 26, 0.3);
+  }
+
+  .project-card__cover {
+    margin-bottom: 12px;
+  }
+
+  .project-card__cover :global(img) {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border: 1px solid #222;
+  }
+
+  .project-card__title {
+    font-size: 1.25rem;
+    margin-bottom: 4px;
+  }
+
+  .project-card__title a {
+    color: rgba(0, 255, 26, 0.9);
+  }
+
+  .project-card__title a:hover,
+  .project-card__title a:focus-visible {
+    color: rgba(0, 255, 26, 1);
+  }
+
+  .project-card__date {
+    font-size: 0.8rem;
+    color: #777;
+    margin-bottom: 8px;
+  }
+
+  .project-card__desc {
+    margin-bottom: 10px;
+  }
+
+  .project-card__tech {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 0;
+    margin-bottom: 10px;
+  }
+
+  .project-card__tech li {
+    background-color: #222;
+    padding: 3px 8px;
+    font-size: 0.8rem;
+    color: #bdbdbd;
+    border-radius: 3px;
+  }
+
+  .project-card__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    font-size: 0.92rem;
+  }
+</style>

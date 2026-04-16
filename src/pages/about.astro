@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../config';
+import { Content as AboutContent, frontmatter as aboutFrontmatter } from '../content/about.md';
+---
+
+<BaseLayout
+  title={`About — ${siteConfig.siteName}`}
+  description={`About ${aboutFrontmatter.name}, ${aboutFrontmatter.role} based in ${aboutFrontmatter.location}.`}
+>
+  <section id="about-me">
+    <header class="about__header">
+      <h1>{aboutFrontmatter.name}</h1>
+      <p class="about__role">{aboutFrontmatter.role}</p>
+      <p class="about__location">{aboutFrontmatter.location}</p>
+    </header>
+    <article class="about__body markdown-body">
+      <AboutContent />
+    </article>
+  </section>
+</BaseLayout>
+
+<style>
+  .about__header {
+    padding: 20px 0 24px;
+    border-bottom: 1px solid #222;
+    margin-bottom: 24px;
+  }
+
+  .about__header h1 {
+    font-size: 2rem;
+    color: #cfcfcf;
+    margin-bottom: 4px;
+  }
+
+  .about__role {
+    color: rgba(0, 255, 26, 0.8);
+    margin-bottom: 4px;
+  }
+
+  .about__location {
+    font-size: 0.9rem;
+    color: #777;
+  }
+
+  .markdown-body :global(h1),
+  .markdown-body :global(h2),
+  .markdown-body :global(h3) {
+    color: #cfcfcf;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+
+  .markdown-body :global(p) {
+    margin-bottom: 12px;
+    line-height: 1.7;
+  }
+
+  .markdown-body :global(a) {
+    color: rgba(0, 255, 26, 0.9);
+  }
+
+  .markdown-body :global(a:hover) {
+    color: rgba(0, 255, 26, 1);
+  }
+
+  .markdown-body :global(code) {
+    background-color: #1a1a1a;
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+
+  .markdown-body :global(pre) {
+    background-color: #1a1a1a;
+    padding: 12px 14px;
+    border-radius: 4px;
+    overflow-x: auto;
+  }
+</style>

@@ -1,0 +1,98 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../config';
+
+const gpgLink = siteConfig.socialLinks.find((link) => link.platform === 'GPG');
+const profileLinks = siteConfig.socialLinks.filter((link) =>
+  ['GitHub', 'LinkedIn', 'Xing'].includes(link.platform),
+);
+---
+
+<BaseLayout
+  title={`Contact — ${siteConfig.siteName}`}
+  description={`Reach ${siteConfig.author} via e-mail, GPG, or social profiles.`}
+>
+  <section id="contact">
+    <header class="contact__header">
+      <h1>Contact</h1>
+      <p>Direct ways to reach me.</p>
+    </header>
+
+    <div class="contact__section">
+      <h2>E-mail</h2>
+      <ul class="contact-info">
+        <li>
+          <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
+        </li>
+      </ul>
+      {gpgLink && (
+        <p>
+          Public key:
+          <a class="link" href={gpgLink.url} target="_blank" rel="noopener">
+            GPG on keyserver.ubuntu.com
+          </a>
+        </p>
+      )}
+    </div>
+
+    <div class="contact__section">
+      <h2>Profiles</h2>
+      <ul class="social-links">
+        {profileLinks.map((link) => (
+          <li>
+            <a href={link.url} target="_blank" rel="noopener">{link.platform}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact__header {
+    padding: 20px 0 24px;
+    border-bottom: 1px solid #222;
+    margin-bottom: 24px;
+  }
+
+  .contact__header h1 {
+    font-size: 2rem;
+    color: #cfcfcf;
+    margin-bottom: 4px;
+  }
+
+  .contact__section {
+    margin-bottom: 28px;
+  }
+
+  .contact__section h2 {
+    font-size: 1.2rem;
+    color: #cfcfcf;
+    margin-bottom: 10px;
+  }
+
+  .contact-info,
+  .social-links {
+    list-style: none;
+    padding: 0;
+  }
+
+  .contact-info li,
+  .social-links li {
+    margin-bottom: 8px;
+  }
+
+  .social-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .social-links li {
+    margin-bottom: 0;
+  }
+
+  .link {
+    margin-left: 4px;
+  }
+</style>

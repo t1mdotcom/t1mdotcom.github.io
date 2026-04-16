@@ -8,6 +8,7 @@ export type SiteConfig = {
   siteName: string;
   siteUrl: string;
   author: string;
+  email: string;
   description: string;
   socialLinks: SocialLink[];
 };
@@ -16,6 +17,7 @@ export const siteConfig: SiteConfig = {
   siteName: 'Tim Heinemann',
   siteUrl: 'https://www.heinemann.foo',
   author: 'Tim Heinemann',
+  email: 'tim@heinemann.foo',
   description:
     'Personal portfolio of Tim Heinemann — software engineer, selected projects and contact.',
   socialLinks: [

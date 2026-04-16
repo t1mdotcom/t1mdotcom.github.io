@@ -1,0 +1,169 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import { siteConfig } from '../../config';
+import { Image } from 'astro:assets';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('projects', ({ data }) => !data.draft);
+  return entries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+type Props = { entry: CollectionEntry<'projects'> };
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+
+const formatDate = (date: Date) =>
+  date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+
+<BaseLayout
+  title={`${entry.data.title} — ${siteConfig.siteName}`}
+  description={entry.data.description}
+  ogType="article"
+>
+  <article class="project-detail">
+    <header class="project-detail__header">
+      <p class="project-detail__date">{formatDate(entry.data.date)}</p>
+      <h1>{entry.data.title}</h1>
+      <p class="project-detail__desc">{entry.data.description}</p>
+      <ul class="project-detail__tech">
+        {entry.data.tech.map((tech) => (
+          <li>{tech}</li>
+        ))}
+      </ul>
+      <p class="project-detail__links">
+        {entry.data.repoUrl && (
+          <a href={entry.data.repoUrl} target="_blank" rel="noopener">Repo &#8599;</a>
+        )}
+        {entry.data.liveUrl && (
+          <a href={entry.data.liveUrl} target="_blank" rel="noopener">Live &#8599;</a>
+        )}
+      </p>
+    </header>
+
+    {entry.data.cover && (
+      <div class="project-detail__cover">
+        <Image src={entry.data.cover} alt={entry.data.title} />
+      </div>
+    )}
+
+    <section class="project-detail__body markdown-body">
+      <Content />
+    </section>
+
+    <nav class="project-detail__nav">
+      <a href="/projects">&larr; Back to projects</a>
+    </nav>
+  </article>
+</BaseLayout>
+
+<style>
+  .project-detail {
+    padding: 20px 0;
+  }
+
+  .project-detail__header {
+    border-bottom: 1px solid #222;
+    padding-bottom: 20px;
+    margin-bottom: 24px;
+  }
+
+  .project-detail__date {
+    font-size: 0.85rem;
+    color: #777;
+    margin-bottom: 6px;
+  }
+
+  .project-detail__header h1 {
+    font-size: 1.9rem;
+    color: #cfcfcf;
+    margin-bottom: 8px;
+  }
+
+  .project-detail__desc {
+    margin-bottom: 14px;
+    color: #bdbdbd;
+  }
+
+  .project-detail__tech {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 0;
+    margin-bottom: 14px;
+  }
+
+  .project-detail__tech li {
+    background-color: #222;
+    padding: 3px 8px;
+    font-size: 0.8rem;
+    color: #bdbdbd;
+    border-radius: 3px;
+  }
+
+  .project-detail__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    font-size: 0.92rem;
+  }
+
+  .project-detail__cover {
+    margin-bottom: 20px;
+  }
+
+  .project-detail__cover :global(img) {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border: 1px solid #222;
+  }
+
+  .markdown-body :global(h1),
+  .markdown-body :global(h2),
+  .markdown-body :global(h3) {
+    color: #cfcfcf;
+    margin-top: 24px;
+    margin-bottom: 10px;
+  }
+
+  .markdown-body :global(p) {
+    margin-bottom: 12px;
+    line-height: 1.7;
+  }
+
+  .markdown-body :global(ul),
+  .markdown-body :global(ol) {
+    margin-left: 20px;
+    margin-bottom: 12px;
+  }
+
+  .markdown-body :global(a) {
+    color: rgba(0, 255, 26, 0.9);
+  }
+
+  .markdown-body :global(code) {
+    background-color: #1a1a1a;
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+
+  .markdown-body :global(pre) {
+    background-color: #1a1a1a;
+    padding: 12px 14px;
+    border-radius: 4px;
+    overflow-x: auto;
+  }
+
+  .project-detail__nav {
+    margin-top: 32px;
+    padding-top: 20px;
+    border-top: 1px solid #222;
+  }
+</style>

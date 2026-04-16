@@ -1,0 +1,45 @@
+@font-face {
+  font-family: 'Hack Nerd Font';
+  src: url('/assets/fonts/HackNerdFont-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  background-color: #111;
+  color: #989898;
+  font-family: 'Hack Nerd Font', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+a {
+  color: rgba(0, 255, 26, 0.5);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover,
+a:focus-visible {
+  color: rgba(0, 255, 26, 0.9);
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid rgba(0, 255, 26, 0.9);
+  outline-offset: 2px;
+}
+
+.site-header {
+  box-shadow: 0 2px 20px rgba(0, 255, 26, 0.5);
+}

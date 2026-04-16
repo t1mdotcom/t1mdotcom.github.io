@@ -1,2 +1,32 @@
-node_modules
-dist
+# Dependencies
+node_modules/
+
+# Production build
+dist/
+.astro/
+
+# OS
+.DS_Store
+
+# Logs
+*.log
+npm-debug.log*
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Editors
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Cavekit runtime
+.cavekit/
+.claude/

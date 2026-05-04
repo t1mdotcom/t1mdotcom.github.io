@@ -7,25 +7,26 @@ const featured = await getFeaturedProjects(3);
 ---
 
 <BaseLayout
-  title={`${siteConfig.siteName} — Software Engineer`}
+  title={`${siteConfig.siteName} — AI-Augmented Software Engineer`}
   description={siteConfig.description}
 >
   <section class="hero">
     <h1>{siteConfig.author}</h1>
-    <p class="hero__role">Software Engineer</p>
+    <p class="hero__role">AI-Augmented Software Engineer</p>
     <p class="hero__intro">
-      I build developer tools, web services, and systems that prefer small, sharp
-      pieces over sprawling frameworks.
+      I work across full-stack web development, DevOps tasks, and Linux server
+      administration, with a constant focus on using AI tools where they make
+      engineering workflows faster, clearer, and more reliable.
     </p>
     <div class="hero__ctas">
-      <a class="cta" href="/projects">View projects</a>
-      <a class="cta cta--ghost" href="/contact">Get in touch</a>
+      <a class="cta" href="https://www.linkedin.com/in/tim-heinemann-524764190/" target="_blank" rel="noopener">Connect on LinkedIn</a>
+      <a class="cta cta--ghost" href="/projects">View work patterns</a>
     </div>
   </section>
 
   {featured.length > 0 && (
     <section class="featured" aria-labelledby="featured-heading">
-      <h2 id="featured-heading">Featured projects</h2>
+      <h2 id="featured-heading">Daily engineering focus</h2>
       <ul class="featured__list">
         {featured.map((entry) => (
           <li>
@@ -37,7 +38,7 @@ const featured = await getFeaturedProjects(3);
         ))}
       </ul>
       <p class="featured__more">
-        <a href="/projects">All projects &rarr;</a>
+        <a href="/projects">All work patterns &rarr;</a>
       </p>
     </section>
   )}

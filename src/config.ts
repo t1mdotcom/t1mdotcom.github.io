@@ -19,7 +19,7 @@ export const siteConfig: SiteConfig = {
   author: 'Tim Heinemann',
   email: 'tim@heinemann.foo',
   description:
-    'Personal portfolio of Tim Heinemann — software engineer, selected projects and contact.',
+    'Personal portfolio of Tim Heinemann — AI-augmented software engineer focused on full-stack web development, DevOps workflows, and Linux server administration.',
   socialLinks: [
     { platform: 'GitHub', url: 'https://github.com/t1mdotcom', icon: 'github' },
     {

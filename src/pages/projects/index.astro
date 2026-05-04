@@ -11,13 +11,13 @@ const formatDate = (date: Date) =>
 ---
 
 <BaseLayout
-  title={`Projects — ${siteConfig.siteName}`}
-  description={`Selected projects by ${siteConfig.author} — curated, recruiter-ready portfolio.`}
+  title={`Work Patterns — ${siteConfig.siteName}`}
+  description={`Selected work patterns by ${siteConfig.author} — full-stack development, DevOps, Linux operations, and AI-assisted engineering.`}
 >
   <section>
     <header class="projects__header">
-      <h1>Projects</h1>
-      <p>A selected, curated list.</p>
+      <h1>Work Patterns</h1>
+      <p>Selected areas from my daily engineering work.</p>
     </header>
 
     <ul class="projects__list">
@@ -46,7 +46,7 @@ const formatDate = (date: Date) =>
               {entry.data.liveUrl && (
                 <a href={entry.data.liveUrl} target="_blank" rel="noopener">Live &#8599;</a>
               )}
-              <a href={`/projects/${entry.slug}/`}>Details &rarr;</a>
+              <a href={`/projects/${entry.slug}/`}>Read more &rarr;</a>
             </p>
           </div>
         </li>

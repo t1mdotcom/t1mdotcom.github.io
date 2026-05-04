@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { siteConfig } from '../config';
 
 const gpgLink = siteConfig.socialLinks.find((link) => link.platform === 'GPG');
+const linkedInLink = siteConfig.socialLinks.find((link) => link.platform === 'LinkedIn');
 const profileLinks = siteConfig.socialLinks.filter((link) =>
   ['GitHub', 'LinkedIn', 'Xing'].includes(link.platform),
 );
@@ -15,8 +16,19 @@ const profileLinks = siteConfig.socialLinks.filter((link) =>
   <section id="contact">
     <header class="contact__header">
       <h1>Contact</h1>
-      <p>Direct ways to reach me.</p>
+      <p>I am happily employed, but always open to thoughtful professional contact.</p>
     </header>
+
+    {linkedInLink && (
+      <div class="contact__section contact__primary">
+        <h2>Preferred</h2>
+        <p>
+          <a class="primary-link" href={linkedInLink.url} target="_blank" rel="noopener">
+            Connect on LinkedIn
+          </a>
+        </p>
+      </div>
+    )}
 
     <div class="contact__section">
       <h2>E-mail</h2>
@@ -65,6 +77,12 @@ const profileLinks = siteConfig.socialLinks.filter((link) =>
     margin-bottom: 28px;
   }
 
+  .contact__primary {
+    padding: 16px;
+    background-color: #1a1a1a;
+    border: 1px solid rgba(0, 255, 26, 0.25);
+  }
+
   .contact__section h2 {
     font-size: 1.2rem;
     color: #cfcfcf;
@@ -94,5 +112,18 @@ const profileLinks = siteConfig.socialLinks.filter((link) =>
 
   .link {
     margin-left: 4px;
+  }
+
+  .primary-link {
+    display: inline-block;
+    padding: 10px 16px;
+    border: 1px solid rgba(0, 255, 26, 0.5);
+    color: rgba(0, 255, 26, 0.9);
+  }
+
+  .primary-link:hover,
+  .primary-link:focus-visible {
+    background-color: rgba(0, 255, 26, 0.1);
+    color: rgba(0, 255, 26, 1);
   }
 </style>

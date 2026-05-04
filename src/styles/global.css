@@ -1,9 +1,20 @@
-@font-face {
-  font-family: 'Hack Nerd Font';
-  src: url('/assets/fonts/HackNerdFont-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+@import '@fontsource/monaspace-neon/400.css';
+@import '@fontsource/monaspace-neon/500.css';
+@import '@fontsource/monaspace-neon/700.css';
+
+:root {
+  --bg: #0a0d0c;
+  --bg-deep: #050706;
+  --panel: #101514;
+  --panel-strong: #151b1a;
+  --line: rgba(122, 255, 189, 0.16);
+  --line-strong: rgba(122, 255, 189, 0.36);
+  --text: #a9b8b2;
+  --text-strong: #d8e5df;
+  --muted: #6f8179;
+  --green: #79ffb4;
+  --cyan: #61d9ff;
+  --magenta: #ff4fd8;
 }
 
 *,
@@ -16,30 +27,59 @@
 
 html,
 body {
-  background-color: #111;
-  color: #989898;
-  font-family: 'Hack Nerd Font', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Monaspace Neon', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   line-height: 1.6;
   min-height: 100vh;
 }
 
+body {
+  background:
+    linear-gradient(rgba(121, 255, 180, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(97, 217, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(180deg, var(--bg-deep), var(--bg));
+  background-size: 100% 24px, 28px 100%, 100% 100%;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    linear-gradient(90deg, transparent, rgba(255, 79, 216, 0.06), transparent),
+    repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.018) 0, rgba(255, 255, 255, 0.018) 1px, transparent 1px, transparent 4px);
+  opacity: 0.5;
+}
+
 a {
-  color: rgba(0, 255, 26, 0.5);
+  color: var(--green);
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
 }
 
 a:hover,
 a:focus-visible {
-  color: rgba(0, 255, 26, 0.9);
+  color: var(--cyan);
 }
 
 a:focus-visible,
 button:focus-visible {
-  outline: 2px solid rgba(0, 255, 26, 0.9);
+  outline: 2px solid var(--cyan);
   outline-offset: 2px;
 }
 
+.icon {
+  width: 1em;
+  height: 1em;
+  flex: 0 0 auto;
+  stroke-width: 1.8;
+}
+
 .site-header {
-  box-shadow: 0 2px 20px rgba(0, 255, 26, 0.5);
+  box-shadow:
+    0 1px 0 var(--line),
+    0 14px 32px rgba(0, 0, 0, 0.38);
 }

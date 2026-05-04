@@ -7,7 +7,8 @@ Static portfolio site built with [Astro](https://astro.build/) and deployed to G
 - Astro 5 static site, TypeScript strict mode
 - Content Collections for curated project entries (Markdown + Zod-validated frontmatter)
 - Inline About content rendered at build time (no runtime fetches)
-- Hacker-Retro theme (dark `#111`, monospace, green accent)
+- Hacker-Retro theme (dark `#111`, Monaspace Neon, green accent)
+- Lucide SVG icons for navigation, CTAs, work cards, and contact links
 - Semantic HTML, skip-to-content link, WCAG AA color contrast
 - Per-page Open Graph metadata, auto-generated `sitemap.xml` + `robots.txt`
 - Zero client-side JavaScript beyond Astro defaults
@@ -88,10 +89,10 @@ Pushing to `main` triggers `.github/workflows/deploy.yml`, which builds the site
 
 ## Customization
 
-- **Theme colors and fonts** — `src/styles/global.css`
+- **Theme colors, Monaspace Neon font imports, and icon sizing** — `src/styles/global.css`
 - **Site identity and social links** — `src/config.ts`
 - **About bio** — `src/content/about.md`
 
 ## Design Notes
 
-Dark background `#111`, monospace type (Hack Nerd Font → system monospace fallback), green accent `rgba(0, 255, 26, 0.5)` for interactive elements with hover/active lifting to `0.9` alpha. Header carries a green-glow box-shadow.
+Dark terminal background, Monaspace Neon typeface with system monospace fallback, green/cyan/magenta accents, and subtle grid/scanline treatment.

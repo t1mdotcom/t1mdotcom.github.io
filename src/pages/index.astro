@@ -2,8 +2,25 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { siteConfig } from '../config';
 import { getFeaturedProjects } from '../lib/projects';
+import {
+  ArrowRight,
+  Bot,
+  Code,
+  ContactRound,
+  Container,
+  GitBranch,
+  ServerCog,
+  Terminal,
+} from '@lucide/astro';
 
 const featured = await getFeaturedProjects(3);
+
+const signals = [
+  { label: 'Angular + TypeScript interfaces', icon: Code },
+  { label: 'Java/Spring services with Gradle', icon: ServerCog },
+  { label: 'GitLab/GitHub CI/CD and Docker', icon: Container },
+  { label: 'Claude Code, Codex, Junie, CLI workflows', icon: Bot },
+];
 ---
 
 <BaseLayout
@@ -11,16 +28,42 @@ const featured = await getFeaturedProjects(3);
   description={siteConfig.description}
 >
   <section class="hero">
-    <h1>{siteConfig.author}</h1>
-    <p class="hero__role">AI-Augmented Software Engineer</p>
-    <p class="hero__intro">
-      I work across full-stack web development, DevOps tasks, and Linux server
-      administration, with a constant focus on using AI tools where they make
-      engineering workflows faster, clearer, and more reliable.
-    </p>
-    <div class="hero__ctas">
-      <a class="cta" href="https://www.linkedin.com/in/tim-heinemann-524764190/" target="_blank" rel="noopener">Connect on LinkedIn</a>
-      <a class="cta cta--ghost" href="/projects">View work patterns</a>
+    <div class="terminal-panel" aria-label="Profile terminal">
+      <div class="terminal-panel__bar">
+        <span></span>
+        <span></span>
+        <span></span>
+        <p><Terminal class="icon" size={14} aria-hidden="true" /> profile.sh</p>
+      </div>
+      <div class="terminal-panel__body">
+        <p class="terminal-line"><span>$</span> whoami</p>
+        <h1>{siteConfig.author}</h1>
+        <p class="hero__role">AI-Augmented Software Engineer</p>
+        <p class="terminal-line"><span>$</span> cat daily-focus.txt</p>
+        <p class="hero__intro">
+          Full-stack web development, DevOps tasks, and Linux server administration,
+          sharpened by practical AI workflows on the command line.
+        </p>
+        <ul class="hero__signals" aria-label="Engineering focus">
+          {signals.map(({ label, icon: Icon }) => (
+            <li>
+              <Icon class="icon" size={17} aria-hidden="true" />
+              {label}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <div class="hero__ctas" aria-label="Primary actions">
+      <a class="cta" href="https://www.linkedin.com/in/tim-heinemann-524764190/" target="_blank" rel="noopener">
+        <ContactRound class="icon" size={18} aria-hidden="true" />
+        Connect on LinkedIn
+      </a>
+      <a class="cta cta--ghost" href="/projects">
+        <GitBranch class="icon" size={18} aria-hidden="true" />
+        View work patterns
+      </a>
     </div>
   </section>
 
@@ -33,6 +76,10 @@ const featured = await getFeaturedProjects(3);
             <a href={`/projects/${entry.slug}/`} class="featured__item">
               <span class="featured__title">{entry.data.title}</span>
               <span class="featured__desc">{entry.data.description}</span>
+              <span class="featured__read">
+                Open case file
+                <ArrowRight class="icon" size={15} aria-hidden="true" />
+              </span>
             </a>
           </li>
         ))}
@@ -46,64 +93,160 @@ const featured = await getFeaturedProjects(3);
 
 <style>
   .hero {
-    padding: 40px 0 24px;
-    border-bottom: 1px solid #222;
+    padding: 22px 0 34px;
+    border-bottom: 1px solid var(--line);
   }
 
-  .hero h1 {
-    font-size: 2.2rem;
-    color: #cfcfcf;
+  .terminal-panel {
+    background:
+      linear-gradient(135deg, rgba(121, 255, 180, 0.08), transparent 34%),
+      var(--panel);
+    border: 1px solid var(--line-strong);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      0 18px 50px rgba(0, 0, 0, 0.35);
+  }
+
+  .terminal-panel__bar {
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 14px;
+    background-color: rgba(5, 7, 6, 0.86);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .terminal-panel__bar span {
+    width: 9px;
+    height: 9px;
+    border-radius: 999px;
+    border: 1px solid var(--line-strong);
+  }
+
+  .terminal-panel__bar span:nth-child(1) {
+    background-color: var(--magenta);
+  }
+
+  .terminal-panel__bar span:nth-child(2) {
+    background-color: var(--cyan);
+  }
+
+  .terminal-panel__bar span:nth-child(3) {
+    background-color: var(--green);
+  }
+
+  .terminal-panel__bar p {
+    margin-left: 8px;
+    color: var(--muted);
+    font-size: 0.82rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .terminal-panel__body {
+    padding: 28px;
+  }
+
+  .terminal-line {
+    color: var(--muted);
+    font-size: 0.92rem;
     margin-bottom: 6px;
   }
 
+  .terminal-line span {
+    color: var(--green);
+  }
+
+  .hero h1 {
+    font-size: 2.4rem;
+    color: var(--text-strong);
+    margin-bottom: 4px;
+  }
+
   .hero__role {
-    color: rgba(0, 255, 26, 0.8);
-    margin-bottom: 14px;
+    color: var(--green);
+    margin-bottom: 22px;
     font-size: 1rem;
   }
 
   .hero__intro {
-    max-width: 640px;
-    margin-bottom: 22px;
+    max-width: 760px;
+    margin-bottom: 18px;
+    color: var(--text-strong);
+  }
+
+  .hero__signals {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    padding: 0;
+    margin-top: 18px;
+  }
+
+  .hero__signals li {
+    background-color: rgba(5, 7, 6, 0.5);
+    border: 1px solid var(--line);
+    color: var(--text);
+    padding: 9px 11px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .hero__signals :global(.icon) {
+    color: var(--magenta);
   }
 
   .hero__ctas {
     display: flex;
     gap: 14px;
     flex-wrap: wrap;
+    margin-top: 22px;
   }
 
   .cta {
-    display: inline-block;
-    padding: 10px 18px;
-    border: 1px solid rgba(0, 255, 26, 0.5);
-    color: rgba(0, 255, 26, 0.9);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 18px;
+    border: 1px solid var(--line-strong);
+    color: var(--bg-deep);
+    background-color: var(--green);
+    box-shadow: 0 0 22px rgba(121, 255, 180, 0.16);
   }
 
   .cta:hover,
   .cta:focus-visible {
-    background-color: rgba(0, 255, 26, 0.1);
-    color: rgba(0, 255, 26, 1);
+    background-color: var(--cyan);
+    border-color: var(--cyan);
+    color: var(--bg-deep);
   }
 
   .cta--ghost {
-    border-color: #333;
-    color: #989898;
+    background-color: transparent;
+    border-color: var(--line);
+    color: var(--text);
+    box-shadow: none;
   }
 
   .cta--ghost:hover,
   .cta--ghost:focus-visible {
-    border-color: rgba(0, 255, 26, 0.5);
-    color: rgba(0, 255, 26, 0.9);
+    background-color: rgba(97, 217, 255, 0.08);
+    border-color: var(--cyan);
+    color: var(--cyan);
   }
 
   .featured {
-    padding: 28px 0;
+    padding: 34px 0 0;
   }
 
   .featured h2 {
     font-size: 1.4rem;
-    color: #cfcfcf;
+    color: var(--text-strong);
     margin-bottom: 14px;
   }
 
@@ -111,27 +254,30 @@ const featured = await getFeaturedProjects(3);
     list-style: none;
     padding: 0;
     display: grid;
-    gap: 10px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
   }
 
   .featured__item {
     display: flex;
     flex-direction: column;
-    padding: 14px;
-    background-color: #1a1a1a;
-    border: 1px solid #222;
-    color: #989898;
+    min-height: 100%;
+    padding: 16px;
+    background-color: var(--panel);
+    border: 1px solid var(--line);
+    color: var(--text);
   }
 
   .featured__item:hover,
   .featured__item:focus-visible {
-    border-color: rgba(0, 255, 26, 0.5);
-    color: #cfcfcf;
+    border-color: var(--cyan);
+    color: var(--text-strong);
+    background-color: var(--panel-strong);
   }
 
   .featured__title {
     font-size: 1.05rem;
-    color: rgba(0, 255, 26, 0.9);
+    color: var(--green);
     margin-bottom: 4px;
   }
 
@@ -139,7 +285,31 @@ const featured = await getFeaturedProjects(3);
     font-size: 0.9rem;
   }
 
+  .featured__read {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 14px;
+    color: var(--cyan);
+    font-size: 0.85rem;
+  }
+
   .featured__more {
     margin-top: 16px;
+  }
+
+  @media (max-width: 760px) {
+    .terminal-panel__body {
+      padding: 20px;
+    }
+
+    .hero h1 {
+      font-size: 2rem;
+    }
+
+    .hero__signals,
+    .featured__list {
+      grid-template-columns: 1fr;
+    }
   }
 </style>

@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { siteConfig } from '../../config';
 import { Image } from 'astro:assets';
+import { ArrowLeft, Calendar, ExternalLink, FileTerminal, Tags } from '@lucide/astro';
 
 export async function getStaticPaths() {
   const entries = await getCollection('projects', ({ data }) => !data.draft);
@@ -28,20 +29,34 @@ const formatDate = (date: Date) =>
 >
   <article class="project-detail">
     <header class="project-detail__header">
-      <p class="project-detail__date">{formatDate(entry.data.date)}</p>
+      <p class="project-detail__eyebrow">
+        <FileTerminal class="icon" size={15} aria-hidden="true" />
+        /work/{entry.slug}
+      </p>
+      <p class="project-detail__date">
+        <Calendar class="icon" size={14} aria-hidden="true" />
+        {formatDate(entry.data.date)}
+      </p>
       <h1>{entry.data.title}</h1>
       <p class="project-detail__desc">{entry.data.description}</p>
       <ul class="project-detail__tech">
         {entry.data.tech.map((tech) => (
-          <li>{tech}</li>
+          <li>
+            <Tags class="icon" size={13} aria-hidden="true" />
+            {tech}
+          </li>
         ))}
       </ul>
       <p class="project-detail__links">
         {entry.data.repoUrl && (
-          <a href={entry.data.repoUrl} target="_blank" rel="noopener">Repo &#8599;</a>
+          <a href={entry.data.repoUrl} target="_blank" rel="noopener">
+            Repo <ExternalLink class="icon" size={14} aria-hidden="true" />
+          </a>
         )}
         {entry.data.liveUrl && (
-          <a href={entry.data.liveUrl} target="_blank" rel="noopener">Live &#8599;</a>
+          <a href={entry.data.liveUrl} target="_blank" rel="noopener">
+            Live <ExternalLink class="icon" size={14} aria-hidden="true" />
+          </a>
         )}
       </p>
     </header>
@@ -57,7 +72,10 @@ const formatDate = (date: Date) =>
     </section>
 
     <nav class="project-detail__nav">
-      <a href="/projects">&larr; Back to work patterns</a>
+      <a href="/projects">
+        <ArrowLeft class="icon" size={15} aria-hidden="true" />
+        Back to work patterns
+      </a>
     </nav>
   </article>
 </BaseLayout>
@@ -68,26 +86,42 @@ const formatDate = (date: Date) =>
   }
 
   .project-detail__header {
-    border-bottom: 1px solid #222;
+    background:
+      linear-gradient(135deg, rgba(121, 255, 180, 0.08), transparent 38%),
+      var(--panel);
+    border: 1px solid var(--line);
     padding-bottom: 20px;
+    padding: 20px;
     margin-bottom: 24px;
+  }
+
+  .project-detail__eyebrow {
+    color: var(--magenta);
+    font-size: 0.82rem;
+    margin-bottom: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
   }
 
   .project-detail__date {
     font-size: 0.85rem;
-    color: #777;
+    color: var(--muted);
     margin-bottom: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
   }
 
   .project-detail__header h1 {
     font-size: 1.9rem;
-    color: #cfcfcf;
+    color: var(--text-strong);
     margin-bottom: 8px;
   }
 
   .project-detail__desc {
     margin-bottom: 14px;
-    color: #bdbdbd;
+    color: var(--text);
   }
 
   .project-detail__tech {
@@ -100,11 +134,15 @@ const formatDate = (date: Date) =>
   }
 
   .project-detail__tech li {
-    background-color: #222;
+    background-color: rgba(5, 7, 6, 0.7);
+    border: 1px solid var(--line);
     padding: 3px 8px;
     font-size: 0.8rem;
-    color: #bdbdbd;
+    color: var(--text-strong);
     border-radius: 3px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
   }
 
   .project-detail__links {
@@ -112,6 +150,13 @@ const formatDate = (date: Date) =>
     flex-wrap: wrap;
     gap: 14px;
     font-size: 0.92rem;
+  }
+
+  .project-detail__links a,
+  .project-detail__nav a {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
   }
 
   .project-detail__cover {
@@ -122,13 +167,13 @@ const formatDate = (date: Date) =>
     max-width: 100%;
     height: auto;
     display: block;
-    border: 1px solid #222;
+    border: 1px solid var(--line);
   }
 
   .markdown-body :global(h1),
   .markdown-body :global(h2),
   .markdown-body :global(h3) {
-    color: #cfcfcf;
+    color: var(--text-strong);
     margin-top: 24px;
     margin-bottom: 10px;
   }
@@ -145,17 +190,17 @@ const formatDate = (date: Date) =>
   }
 
   .markdown-body :global(a) {
-    color: rgba(0, 255, 26, 0.9);
+    color: var(--green);
   }
 
   .markdown-body :global(code) {
-    background-color: #1a1a1a;
+    background-color: var(--panel);
     padding: 2px 6px;
     border-radius: 3px;
   }
 
   .markdown-body :global(pre) {
-    background-color: #1a1a1a;
+    background-color: var(--panel);
     padding: 12px 14px;
     border-radius: 4px;
     overflow-x: auto;
@@ -164,6 +209,6 @@ const formatDate = (date: Date) =>
   .project-detail__nav {
     margin-top: 32px;
     padding-top: 20px;
-    border-top: 1px solid #222;
+    border-top: 1px solid var(--line);
   }
 </style>

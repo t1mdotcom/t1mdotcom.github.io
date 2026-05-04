@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { siteConfig } from '../config';
 import { Content as AboutContent, frontmatter as aboutFrontmatter } from '../content/about.md';
+import { MapPin, UserRound } from '@lucide/astro';
 ---
 
 <BaseLayout
@@ -10,9 +11,16 @@ import { Content as AboutContent, frontmatter as aboutFrontmatter } from '../con
 >
   <section id="about-me">
     <header class="about__header">
-      <h1>{aboutFrontmatter.name}</h1>
+      <p class="about__eyebrow">/about</p>
+      <h1>
+        <UserRound class="icon" size={26} aria-hidden="true" />
+        {aboutFrontmatter.name}
+      </h1>
       <p class="about__role">{aboutFrontmatter.role}</p>
-      <p class="about__location">{aboutFrontmatter.location}</p>
+      <p class="about__location">
+        <MapPin class="icon" size={15} aria-hidden="true" />
+        {aboutFrontmatter.location}
+      </p>
     </header>
     <article class="about__body markdown-body">
       <AboutContent />
@@ -22,31 +30,50 @@ import { Content as AboutContent, frontmatter as aboutFrontmatter } from '../con
 
 <style>
   .about__header {
-    padding: 20px 0 24px;
-    border-bottom: 1px solid #222;
+    padding: 20px;
+    border: 1px solid var(--line);
+    background:
+      linear-gradient(90deg, rgba(97, 217, 255, 0.08), transparent 52%),
+      var(--panel);
     margin-bottom: 24px;
+  }
+
+  .about__eyebrow {
+    color: var(--magenta);
+    font-size: 0.85rem;
+    margin-bottom: 4px;
   }
 
   .about__header h1 {
     font-size: 2rem;
-    color: #cfcfcf;
+    color: var(--text-strong);
     margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
 
   .about__role {
-    color: rgba(0, 255, 26, 0.8);
+    color: var(--green);
     margin-bottom: 4px;
   }
 
   .about__location {
     font-size: 0.9rem;
-    color: #777;
+    color: var(--muted);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .about__body {
+    max-width: 820px;
   }
 
   .markdown-body :global(h1),
   .markdown-body :global(h2),
   .markdown-body :global(h3) {
-    color: #cfcfcf;
+    color: var(--text-strong);
     margin-top: 20px;
     margin-bottom: 10px;
   }
@@ -57,21 +84,21 @@ import { Content as AboutContent, frontmatter as aboutFrontmatter } from '../con
   }
 
   .markdown-body :global(a) {
-    color: rgba(0, 255, 26, 0.9);
+    color: var(--green);
   }
 
   .markdown-body :global(a:hover) {
-    color: rgba(0, 255, 26, 1);
+    color: var(--cyan);
   }
 
   .markdown-body :global(code) {
-    background-color: #1a1a1a;
+    background-color: var(--panel);
     padding: 2px 6px;
     border-radius: 3px;
   }
 
   .markdown-body :global(pre) {
-    background-color: #1a1a1a;
+    background-color: var(--panel);
     padding: 12px 14px;
     border-radius: 4px;
     overflow-x: auto;

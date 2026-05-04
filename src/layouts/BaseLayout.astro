@@ -49,13 +49,15 @@ const canonicalUrl = new URL(Astro.url.pathname, siteConfig.siteUrl).toString();
 
 <style is:global>
   body {
-    background-color: #111;
+    background-color: var(--bg);
   }
 
   .wrapper {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    position: relative;
+    z-index: 1;
   }
 
   .site-main {
@@ -63,24 +65,25 @@ const canonicalUrl = new URL(Astro.url.pathname, siteConfig.siteUrl).toString();
     max-width: 1100px;
     width: 100%;
     margin: 0 auto;
-    padding: 32px 20px;
-    color: #989898;
+    padding: 42px 20px;
+    color: var(--text);
   }
 
   .skip-link {
     position: absolute;
     left: -9999px;
     top: 0;
-    background: #010101;
-    color: rgba(0, 255, 26, 0.9);
+    background: var(--bg-deep);
+    color: var(--green);
     padding: 10px 14px;
     z-index: 1000;
+    border: 1px solid var(--line-strong);
   }
 
   .skip-link:focus-visible {
     left: 10px;
     top: 10px;
-    outline: 2px solid rgba(0, 255, 26, 0.9);
+    outline: 2px solid var(--cyan);
     outline-offset: 2px;
   }
 

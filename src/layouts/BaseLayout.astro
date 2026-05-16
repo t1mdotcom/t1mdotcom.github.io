@@ -8,11 +8,25 @@ export interface Props {
   title: string;
   description?: string;
   ogType?: 'website' | 'article';
+  ogImage?: string;
 }
 
-const { title, description, ogType = 'website' } = Astro.props;
+const { title, description, ogType = 'website', ogImage } = Astro.props;
 const resolvedDescription = description ?? siteConfig.description;
 const canonicalUrl = new URL(Astro.url.pathname, siteConfig.siteUrl).toString();
+const resolvedOgImage = new URL(ogImage ?? '/assets/img/og.png', siteConfig.siteUrl).toString();
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: siteConfig.author,
+  url: siteConfig.siteUrl,
+  email: `mailto:${siteConfig.email}`,
+  jobTitle: 'AI-Augmented Software Engineer',
+  sameAs: siteConfig.socialLinks
+    .filter((link) => link.platform !== 'GPG')
+    .map((link) => link.url),
+};
 ---
 
 <!DOCTYPE html>
@@ -30,10 +44,17 @@ const canonicalUrl = new URL(Astro.url.pathname, siteConfig.siteUrl).toString();
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content={siteConfig.siteName} />
+    <meta property="og:image" content={resolvedOgImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${siteConfig.author} — AI-Augmented Software Engineer`} />
 
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={resolvedDescription} />
+    <meta name="twitter:image" content={resolvedOgImage} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>

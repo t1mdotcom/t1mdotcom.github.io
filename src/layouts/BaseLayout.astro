@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import monaspace400 from '@fontsource/monaspace-neon/files/monaspace-neon-latin-400-normal.woff2';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { siteConfig } from '../config';
@@ -35,6 +36,7 @@ const personSchema = {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico" />
+    <link rel="preload" as="font" type="font/woff2" href={monaspace400} crossorigin />
     <title>{title}</title>
     <meta name="description" content={resolvedDescription} />
     <link rel="canonical" href={canonicalUrl} />

@@ -5,13 +5,15 @@ Static portfolio site built with [Astro](https://astro.build/) and deployed to G
 ## Features
 
 - Astro 5 static site, TypeScript strict mode
-- Content Collections for curated project entries (Markdown + Zod-validated frontmatter)
+- Single-page layout with scroll sections (`#top` / `#about` / `#work` / `#contact`)
+- Sticky header with anchor nav + IntersectionObserver scroll-spy (active-section highlight)
+- Content Collections for curated project entries (Markdown + Zod-validated frontmatter), rendered inline in the Work section
 - Inline About content rendered at build time (no runtime fetches)
 - Hacker-Retro theme (dark `#111`, Monaspace Neon, green accent)
 - Lucide SVG icons for navigation, CTAs, work cards, and contact links
-- Semantic HTML, skip-to-content link, WCAG AA color contrast
-- Per-page Open Graph metadata, auto-generated `sitemap.xml` + `robots.txt`
-- Zero client-side JavaScript beyond Astro defaults
+- Semantic HTML, skip-to-content link, smooth scroll with `prefers-reduced-motion` fallback, WCAG AA color contrast
+- Open Graph metadata, auto-generated `sitemap.xml` + `robots.txt`
+- Minimal client-side JavaScript (scroll-spy only)
 
 ## Prerequisites
 
@@ -44,19 +46,15 @@ Open [http://localhost:4321](http://localhost:4321).
 │   ├── robots.txt                 # references sitemap-index.xml
 │   └── assets/{fonts,img}/        # fonts, favicon
 ├── src/
-│   ├── components/Header.astro    # nav with aria-current
+│   ├── components/Header.astro    # anchor nav + scroll-spy
 │   ├── components/Footer.astro
 │   ├── content/config.ts          # projects collection schema
-│   ├── content/about.md           # About page content
-│   ├── content/projects/*.md      # Project entries
+│   ├── content/about.md           # About section content
+│   ├── content/projects/*.md      # Project entries (rendered inline)
 │   ├── config.ts                  # Site config (identity, socials)
 │   ├── layouts/BaseLayout.astro   # shared shell
 │   ├── lib/projects.ts            # collection helpers
-│   ├── pages/index.astro          # Home
-│   ├── pages/about.astro          # About
-│   ├── pages/projects/index.astro # Projects list
-│   ├── pages/projects/[slug].astro# Project detail
-│   ├── pages/contact.astro        # Contact
+│   ├── pages/index.astro          # One-pager: #top / #about / #work / #contact
 │   ├── pages/404.astro            # 404
 │   └── styles/global.css          # Theme
 ├── astro.config.mjs

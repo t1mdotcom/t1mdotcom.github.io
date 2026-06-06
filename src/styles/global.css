@@ -34,6 +34,18 @@ body {
   min-height: 100vh;
 }
 
+html {
+  scroll-behavior: smooth;
+  /* Offset für den sticky Header, damit Anker-Ziele nicht darunter verschwinden. */
+  scroll-padding-top: 84px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 body {
   background:
     linear-gradient(rgba(121, 255, 180, 0.035) 1px, transparent 1px),

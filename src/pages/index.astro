@@ -1,19 +1,36 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { siteConfig } from '../config';
-import { getFeaturedProjects } from '../lib/projects';
+import { getPublishedProjects } from '../lib/projects';
+import { Content as AboutContent, frontmatter as aboutFrontmatter } from '../content/about.md';
+import { Image } from 'astro:assets';
 import {
-  ArrowRight,
   Bot,
+  Calendar,
   Code,
   ContactRound,
   Container,
+  ExternalLink,
+  FileTerminal,
   GitBranch,
+  KeyRound,
+  Mail,
+  MapPin,
+  Network,
+  Send,
   ServerCog,
+  Tags,
   Terminal,
+  UserRound,
 } from '@lucide/astro';
 
-const featured = await getFeaturedProjects(3);
+const projects = await getPublishedProjects();
+const renderedProjects = await Promise.all(
+  projects.map(async (entry) => ({
+    entry,
+    Content: (await entry.render()).Content,
+  })),
+);
 
 const signals = [
   { label: 'Angular + TypeScript interfaces', icon: Code },
@@ -21,13 +38,28 @@ const signals = [
   { label: 'GitLab/GitHub CI/CD and Docker', icon: Container },
   { label: 'Claude Code, Codex, Junie, CLI workflows', icon: Bot },
 ];
+
+const gpgLink = siteConfig.socialLinks.find((link) => link.platform === 'GPG');
+const linkedInLink = siteConfig.socialLinks.find((link) => link.platform === 'LinkedIn');
+const profileLinks = siteConfig.socialLinks.filter((link) =>
+  ['GitHub', 'LinkedIn', 'Xing'].includes(link.platform),
+);
+
+const getProfileIcon = (platform: string) => {
+  if (platform === 'GitHub') return GitBranch;
+  if (platform === 'LinkedIn') return ContactRound;
+  return Network;
+};
+
+const formatDate = (date: Date) =>
+  date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 ---
 
 <BaseLayout
   title={`${siteConfig.siteName} — AI-Augmented Software Engineer`}
   description={siteConfig.description}
 >
-  <section class="hero">
+  <section id="top" class="hero">
     <div class="terminal-panel" aria-label="Profile terminal">
       <div class="terminal-panel__bar">
         <span></span>
@@ -56,45 +88,229 @@ const signals = [
     </div>
 
     <div class="hero__ctas" aria-label="Primary actions">
-      <a class="cta" href="https://www.linkedin.com/in/tim-heinemann-524764190/" target="_blank" rel="noopener">
+      <a class="cta" href={linkedInLink?.url} target="_blank" rel="noopener">
         <ContactRound class="icon" size={18} aria-hidden="true" />
         Connect on LinkedIn
       </a>
-      <a class="cta cta--ghost" href="/projects">
+      <a class="cta cta--ghost" href="#work">
         <GitBranch class="icon" size={18} aria-hidden="true" />
         View work patterns
       </a>
     </div>
   </section>
 
-  {featured.length > 0 && (
-    <section class="featured" aria-labelledby="featured-heading">
-      <h2 id="featured-heading">Daily engineering focus</h2>
-      <ul class="featured__list">
-        {featured.map((entry) => (
-          <li>
-            <a href={`/projects/${entry.slug}/`} class="featured__item">
-              <span class="featured__title">{entry.data.title}</span>
-              <span class="featured__desc">{entry.data.description}</span>
-              <span class="featured__read">
-                Open case file
-                <ArrowRight class="icon" size={15} aria-hidden="true" />
-              </span>
-            </a>
-          </li>
-        ))}
-      </ul>
-      <p class="featured__more">
-        <a href="/projects">All work patterns &rarr;</a>
+  <section id="about" class="section-block" aria-labelledby="about-heading">
+    <header class="block-header">
+      <p class="eyebrow">/about</p>
+      <h2 id="about-heading">
+        <UserRound class="icon" size={24} aria-hidden="true" />
+        {aboutFrontmatter.name}
+      </h2>
+      <p class="block-header__role">{aboutFrontmatter.role}</p>
+      <p class="block-header__location">
+        <MapPin class="icon" size={15} aria-hidden="true" />
+        {aboutFrontmatter.location}
       </p>
-    </section>
-  )}
+    </header>
+    <article class="about__body markdown-body">
+      <AboutContent />
+    </article>
+  </section>
+
+  <section id="work" class="section-block" aria-labelledby="work-heading">
+    <header class="block-header block-header--plain">
+      <p class="eyebrow">/work</p>
+      <h2 id="work-heading">Work Patterns</h2>
+      <p>Selected areas from my daily engineering work.</p>
+    </header>
+
+    {renderedProjects.length > 0 ? (
+      <div class="work__list">
+        {renderedProjects.map(({ entry, Content }) => (
+          <article class="project" id={`work-${entry.slug}`}>
+            <header class="project__header">
+              <p class="project__eyebrow">
+                <FileTerminal class="icon" size={15} aria-hidden="true" />
+                /work/{entry.slug}
+              </p>
+              <p class="project__date">
+                <Calendar class="icon" size={14} aria-hidden="true" />
+                {formatDate(entry.data.date)}
+              </p>
+              <h3>{entry.data.title}</h3>
+              <p class="project__desc">{entry.data.description}</p>
+              <ul class="project__tech">
+                {entry.data.tech.map((tech) => (
+                  <li>
+                    <Tags class="icon" size={13} aria-hidden="true" />
+                    {tech}
+                  </li>
+                ))}
+              </ul>
+              <p class="project__links">
+                {entry.data.repoUrl && (
+                  <a href={entry.data.repoUrl} target="_blank" rel="noopener">
+                    Repo <ExternalLink class="icon" size={14} aria-hidden="true" />
+                  </a>
+                )}
+                {entry.data.liveUrl && (
+                  <a href={entry.data.liveUrl} target="_blank" rel="noopener">
+                    Live <ExternalLink class="icon" size={14} aria-hidden="true" />
+                  </a>
+                )}
+              </p>
+            </header>
+
+            {entry.data.cover && (
+              <div class="project__cover">
+                <Image src={entry.data.cover} alt={entry.data.title} />
+              </div>
+            )}
+
+            <div class="project__body markdown-body">
+              <Content />
+            </div>
+          </article>
+        ))}
+      </div>
+    ) : (
+      <p class="work__empty">Case files in progress.</p>
+    )}
+  </section>
+
+  <section id="contact" class="section-block" aria-labelledby="contact-heading">
+    <header class="block-header block-header--magenta">
+      <p class="eyebrow">/contact</p>
+      <h2 id="contact-heading">Contact</h2>
+      <p>I am happily employed, but always open to thoughtful professional contact.</p>
+    </header>
+
+    {linkedInLink && (
+      <div class="contact__panel contact__panel--primary">
+        <h3>
+          <Send class="icon" size={19} aria-hidden="true" />
+          Preferred
+        </h3>
+        <p class="contact__copy">
+          The cleanest route for professional exchange, recruiter contact, and relevant opportunities.
+        </p>
+        <p>
+          <a class="primary-link" href={linkedInLink.url} target="_blank" rel="noopener">
+            <ContactRound class="icon" size={18} aria-hidden="true" />
+            Connect on LinkedIn
+          </a>
+        </p>
+      </div>
+    )}
+
+    <div class="contact__panel">
+      <h3>
+        <Mail class="icon" size={19} aria-hidden="true" />
+        E-mail
+      </h3>
+      <ul class="contact-info">
+        <li>
+          <a href={`mailto:${siteConfig.email}`}>
+            <Mail class="icon" size={16} aria-hidden="true" />
+            {siteConfig.email}
+          </a>
+        </li>
+      </ul>
+      {gpgLink && (
+        <p>
+          Public key:
+          <a class="link" href={gpgLink.url} target="_blank" rel="noopener">
+            <KeyRound class="icon" size={15} aria-hidden="true" />
+            GPG on keyserver.ubuntu.com
+            <ExternalLink class="icon" size={14} aria-hidden="true" />
+          </a>
+        </p>
+      )}
+    </div>
+
+    <div class="contact__panel">
+      <h3>
+        <Network class="icon" size={19} aria-hidden="true" />
+        Profiles
+      </h3>
+      <ul class="social-links">
+        {profileLinks.map((link) => {
+          const Icon = getProfileIcon(link.platform);
+          return (
+            <li>
+              <a href={link.url} target="_blank" rel="noopener">
+                <Icon class="icon" size={16} aria-hidden="true" />
+                {link.platform}
+                <ExternalLink class="icon" size={13} aria-hidden="true" />
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  </section>
 </BaseLayout>
 
 <style>
+  /* ---- shared section scaffold ---- */
+  .section-block {
+    padding: 40px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .block-header {
+    padding: 20px;
+    border: 1px solid var(--line);
+    background:
+      linear-gradient(90deg, rgba(97, 217, 255, 0.08), transparent 52%),
+      var(--panel);
+    margin-bottom: 24px;
+  }
+
+  .block-header--magenta {
+    background:
+      linear-gradient(90deg, rgba(255, 79, 216, 0.08), transparent 50%),
+      var(--panel);
+  }
+
+  .block-header--plain {
+    padding: 0 0 18px;
+    border: none;
+    background: none;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .eyebrow {
+    color: var(--magenta);
+    font-size: 0.85rem;
+    margin-bottom: 4px;
+  }
+
+  .block-header h2 {
+    font-size: 2rem;
+    color: var(--text-strong);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .block-header__role {
+    color: var(--green);
+    margin-bottom: 4px;
+  }
+
+  .block-header__location {
+    font-size: 0.9rem;
+    color: var(--muted);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* ---- hero ---- */
   .hero {
     padding: 22px 0 34px;
-    border-bottom: 1px solid var(--line);
   }
 
   .terminal-panel {
@@ -240,62 +456,232 @@ const signals = [
     color: var(--cyan);
   }
 
-  .featured {
-    padding: 34px 0 0;
+  /* ---- about ---- */
+  .about__body {
+    max-width: 820px;
   }
 
-  .featured h2 {
-    font-size: 1.4rem;
-    color: var(--text-strong);
-    margin-bottom: 14px;
-  }
-
-  .featured__list {
-    list-style: none;
-    padding: 0;
+  /* ---- work ---- */
+  .work__list {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 14px;
+    gap: 20px;
   }
 
-  .featured__item {
-    display: flex;
-    flex-direction: column;
-    min-height: 100%;
-    padding: 16px;
-    background-color: var(--panel);
+  .project {
+    background:
+      linear-gradient(90deg, rgba(255, 79, 216, 0.08), transparent 44%),
+      var(--panel);
     border: 1px solid var(--line);
-    color: var(--text);
+    padding: 20px;
+    position: relative;
   }
 
-  .featured__item:hover,
-  .featured__item:focus-visible {
-    border-color: var(--cyan);
-    color: var(--text-strong);
-    background-color: var(--panel-strong);
+  .project::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 20px;
+    bottom: 20px;
+    width: 2px;
+    background-color: var(--magenta);
   }
 
-  .featured__title {
-    font-size: 1.05rem;
-    color: var(--green);
-    margin-bottom: 4px;
-  }
-
-  .featured__desc {
-    font-size: 0.9rem;
-  }
-
-  .featured__read {
+  .project__eyebrow {
+    color: var(--magenta);
+    font-size: 0.82rem;
+    margin-bottom: 8px;
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    margin-top: 14px;
-    color: var(--cyan);
-    font-size: 0.85rem;
   }
 
-  .featured__more {
+  .project__date {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .project__header h3 {
+    font-size: 1.5rem;
+    color: var(--green);
+    margin-bottom: 8px;
+  }
+
+  .project__desc {
+    margin-bottom: 14px;
+    color: var(--text);
+  }
+
+  .project__tech {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 0;
+    margin-bottom: 14px;
+  }
+
+  .project__tech li {
+    background-color: rgba(5, 7, 6, 0.7);
+    border: 1px solid var(--line);
+    padding: 3px 8px;
+    font-size: 0.8rem;
+    color: var(--text-strong);
+    border-radius: 3px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .project__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    font-size: 0.92rem;
+    margin-bottom: 4px;
+  }
+
+  .project__links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .project__cover {
+    margin: 16px 0;
+  }
+
+  .project__cover :global(img) {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border: 1px solid var(--line);
+  }
+
+  .project__body {
+    border-top: 1px solid var(--line);
     margin-top: 16px;
+    padding-top: 4px;
+  }
+
+  .work__empty {
+    color: var(--muted);
+  }
+
+  /* ---- markdown ---- */
+  .markdown-body :global(h1),
+  .markdown-body :global(h2),
+  .markdown-body :global(h3) {
+    color: var(--text-strong);
+    margin-top: 22px;
+    margin-bottom: 10px;
+  }
+
+  .markdown-body :global(p) {
+    margin-bottom: 12px;
+    line-height: 1.7;
+  }
+
+  .markdown-body :global(ul),
+  .markdown-body :global(ol) {
+    margin-left: 20px;
+    margin-bottom: 12px;
+  }
+
+  .markdown-body :global(a) {
+    color: var(--green);
+  }
+
+  .markdown-body :global(a:hover) {
+    color: var(--cyan);
+  }
+
+  .markdown-body :global(code) {
+    background-color: var(--panel);
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+
+  .markdown-body :global(pre) {
+    background-color: var(--panel);
+    padding: 12px 14px;
+    border-radius: 4px;
+    overflow-x: auto;
+  }
+
+  /* ---- contact ---- */
+  .contact__panel {
+    margin-bottom: 24px;
+  }
+
+  .contact__panel--primary {
+    padding: 18px;
+    background-color: var(--panel);
+    border: 1px solid var(--line-strong);
+  }
+
+  .contact__copy {
+    max-width: 620px;
+    margin-bottom: 14px;
+  }
+
+  .contact__panel h3 {
+    font-size: 1.2rem;
+    color: var(--text-strong);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .contact-info,
+  .social-links {
+    list-style: none;
+    padding: 0;
+  }
+
+  .contact-info li {
+    margin-bottom: 8px;
+  }
+
+  .social-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .link {
+    margin-left: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .contact-info a,
+  .social-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .primary-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border: 1px solid var(--line-strong);
+    background-color: var(--green);
+    color: var(--bg-deep);
+  }
+
+  .primary-link:hover,
+  .primary-link:focus-visible {
+    background-color: var(--cyan);
+    border-color: var(--cyan);
+    color: var(--bg-deep);
   }
 
   @media (max-width: 760px) {
@@ -307,8 +693,7 @@ const signals = [
       font-size: 2rem;
     }
 
-    .hero__signals,
-    .featured__list {
+    .hero__signals {
       grid-template-columns: 1fr;
     }
   }

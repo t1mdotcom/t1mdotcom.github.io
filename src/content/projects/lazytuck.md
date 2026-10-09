@@ -34,8 +34,8 @@ Mein chezmoi-Setup war gewachsen: Hunderte fremde Plugin-Dateien samt `.git`-Ord
 - Sicherheitsnetz: Backup vor jeder Änderung in `~`, Links per Temp-Symlink und `rename` — eine Config fehlt nie, auch nicht für Millisekunden. Programme mit Config-Watcher wie AeroSpace laden deshalb nie ihre Default-Config. Pfade, die über einen Ordner-Symlink ins Repo führen, fasst lazytuck nicht an.
 - Gemessen statt angenommen: Ohne `--only-files` lieferte Tuckr in 4 von 20 identischen Läufen fehlende oder falsche Links oder schrieb Symlinks ins Repo; lazytuck verlinkt deshalb grundsätzlich einzelne Dateien.
 - Secret-Scan prüft beim Commit genau das, was `git add -A` aufnehmen würde (in einem temporären Index, der echte bleibt unberührt), beim Push jeden ausgehenden Commit einzeln — ein Token, das hinzugefügt und wieder gelöscht wurde, fällt trotzdem auf.
-- Tests: Matrix aus 4 Operationen × 11 Zuständen, TUI-Tests direkt gegen das Bubble-Tea-Modell, Git-Tests gegen echte Bare-Remotes. Kritische Pfade per Mutation gegengeprüft. CI auf Ubuntu und macOS.
-- Release mit GoReleaser für vier Targets, Homebrew-Cask im eigenen Tap, Installation auf macOS und Linux geprüft.
+- Tests: Matrix aus 4 Operationen × 11 Ausgangslagen (alle Zustände plus Ordner und gefaltete Ordner-Symlinks), TUI-Tests direkt gegen das Bubble-Tea-Modell, Git-Tests gegen echte Bare-Remotes. Kritische Pfade per Mutation gegengeprüft. CI auf Ubuntu und macOS.
+- Release mit GoReleaser für vier Targets, Cask im eigenen [Homebrew-Tap](https://github.com/t1mdotcom/homebrew-tap), Installation auf macOS und Linux geprüft.
 
 ## Why it matters
 

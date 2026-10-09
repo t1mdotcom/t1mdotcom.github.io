@@ -39,7 +39,7 @@ Wispr Flow ohne Cloud: eine Menubar-App für macOS 27 auf Apple Silicon. Taste h
 - System-Audio über einen Core Audio Process Tap. Segmente beider Quellen werden nach Startzeit sortiert und inkrementell geschrieben, ein Absturz verliert höchstens die letzten Sekunden.
 - `SpeechTranscriber` nimmt keine Vokabelliste an, deshalb korrigiert trace-mem nach der Transkription: Fenster aus ein bis vier Wörtern, Levenshtein-Toleranz abhängig von der Wortlänge, gebeugte Formen bleiben unangetastet.
 - AppKit-freie Logik (Hotkey-Matching, Capture, Settings, Pasteboard, Wörterbuch, Transcript-Writer) ist mit Swift Testing abgedeckt, Hardware-nahes wird manuell geprüft.
-- Release per Skript: Tests, signierter Release-Build, GitHub-Release und Cask-Bump im eigenen Homebrew-Tap.
+- Release per Skript: Tests, signierter Release-Build, GitHub-Release und Cask-Bump im eigenen [Homebrew-Tap](https://github.com/t1mdotcom/homebrew-tap).
 
 ## Why it matters
 

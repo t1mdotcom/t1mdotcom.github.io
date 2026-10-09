@@ -8,6 +8,7 @@ tech:
   - pytest
   - ruff
   - GitHub Actions
+  - Homebrew
 repoUrl: https://github.com/t1mdotcom/yt-playlist-mp3
 date: 2026-05-16
 featured: true
@@ -26,6 +27,7 @@ Ein kleines, sauber aufgesetztes CLI-Tool — gedacht als Referenz für meine ei
 - `--dry-run` zeigt den `yt-dlp`-Befehl, ohne ihn auszuführen.
 - Klare Fehlermeldungen, wenn `yt-dlp` oder `ffmpeg` fehlen.
 - Browser-Cookies für private oder altersbeschränkte Inhalte.
+- Installation per `brew install t1mdotcom/tap/yt-playlist-mp3`, `yt-dlp` und `ffmpeg` kommen als Dependencies mit.
 
 ## Engineering
 
@@ -34,6 +36,7 @@ Ein kleines, sauber aufgesetztes CLI-Tool — gedacht als Referenz für meine ei
 - Tests decken Default-Argumente, Overrides, fehlende Abhängigkeiten und den Dry-Run-Pfad ab — `subprocess.run` und `shutil.which` werden via `monkeypatch` ersetzt.
 - CI läuft auf Ubuntu und macOS gegen Python 3.9 bis 3.13.
 - Ruff mit `E`, `F`, `I`, `UP`, `B`, `SIM` — nicht nur Style, sondern auch Modernisierung und Bug-Pattern.
+- Homebrew-Formula im eigenen [Tap](https://github.com/t1mdotcom/homebrew-tap): Virtualenv aus dem getaggten Source-Tarball, `brew test` prüft `--version`, `--check` und den Dry-Run-Befehl, dazu `brew audit --strict --online`.
 
 ## Why it matters
 

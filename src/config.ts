@@ -10,6 +10,7 @@ export type SiteConfig = {
   author: string;
   email: string;
   description: string;
+  showWork: boolean;
   socialLinks: SocialLink[];
 };
 
@@ -20,6 +21,8 @@ export const siteConfig: SiteConfig = {
   email: 'tim@heinemann.foo',
   description:
     'Personal portfolio of Tim Heinemann — AI-augmented software engineer focused on full-stack web development, DevOps workflows, and Linux server administration.',
+  // #work-Sektion samt Nav-Eintrag und Hero-Button
+  showWork: false,
   socialLinks: [
     { platform: 'GitHub', url: 'https://github.com/t1mdotcom', icon: 'github' },
     {

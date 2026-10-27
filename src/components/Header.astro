@@ -6,7 +6,7 @@ const navItems = [
   { label: 'About', href: '#about', icon: UserRound },
   { label: 'Work', href: '#work', icon: Briefcase },
   { label: 'Contact', href: '#contact', icon: Mail },
-];
+].filter(({ href }) => siteConfig.showWork || href !== '#work');
 ---
 
 <header class="site-header">

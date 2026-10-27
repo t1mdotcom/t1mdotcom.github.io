@@ -13,7 +13,7 @@ Astro 5 + TypeScript strict static site. Deployed to GitHub Pages at `https://ww
 | `content/config.ts` | Projects collection Zod schema | cavekit-content.md R1 |
 | `content/about.md` | About content file (frontmatter + markdown), rendered into `#about` | cavekit-content.md R3 |
 | `content/projects/*.md` | Project entries; full bodies rendered inline in `#work` | cavekit-content.md R5 |
-| `config.ts` | Central site config (siteName, siteUrl, author, email, socialLinks) | cavekit-content.md R4 |
+| `config.ts` | Central site config (siteName, siteUrl, author, email, socialLinks, `showWork` toggles `#work` section + nav + hero CTA) | cavekit-content.md R4 |
 | `lib/projects.ts` | `getPublishedProjects()`, `getFeaturedProjects()` | cavekit-content.md R2 |
 | `pages/index.astro` | One-pager — sections `#top` (profile/hero), `#about`, `#work` (projects inline), `#contact` | cavekit-pages.md R1 |
 | `pages/404.astro` | 404 page using BaseLayout | cavekit-site-shell.md R8, cavekit-pages.md R6 |

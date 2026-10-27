@@ -92,10 +92,12 @@ const formatDate = (date: Date) =>
         <ContactRound class="icon" size={18} aria-hidden="true" />
         Connect on LinkedIn
       </a>
-      <a class="cta cta--ghost" href="#work">
-        <GitBranch class="icon" size={18} aria-hidden="true" />
-        View work patterns
-      </a>
+      {siteConfig.showWork && (
+        <a class="cta cta--ghost" href="#work">
+          <GitBranch class="icon" size={18} aria-hidden="true" />
+          View work patterns
+        </a>
+      )}
     </div>
   </section>
 
@@ -117,66 +119,68 @@ const formatDate = (date: Date) =>
     </article>
   </section>
 
-  <section id="work" class="section-block" aria-labelledby="work-heading">
-    <header class="block-header block-header--plain">
-      <p class="eyebrow">/work</p>
-      <h2 id="work-heading">Work Patterns</h2>
-      <p>Selected areas from my daily engineering work.</p>
-    </header>
+  {siteConfig.showWork && (
+    <section id="work" class="section-block" aria-labelledby="work-heading">
+      <header class="block-header block-header--plain">
+        <p class="eyebrow">/work</p>
+        <h2 id="work-heading">Work Patterns</h2>
+        <p>Selected areas from my daily engineering work.</p>
+      </header>
 
-    {renderedProjects.length > 0 ? (
-      <div class="work__list">
-        {renderedProjects.map(({ entry, Content }) => (
-          <article class="project" id={`work-${entry.slug}`}>
-            <header class="project__header">
-              <p class="project__eyebrow">
-                <FileTerminal class="icon" size={15} aria-hidden="true" />
-                /work/{entry.slug}
-              </p>
-              <p class="project__date">
-                <Calendar class="icon" size={14} aria-hidden="true" />
-                {formatDate(entry.data.date)}
-              </p>
-              <h3>{entry.data.title}</h3>
-              <p class="project__desc">{entry.data.description}</p>
-              <ul class="project__tech">
-                {entry.data.tech.map((tech) => (
-                  <li>
-                    <Tags class="icon" size={13} aria-hidden="true" />
-                    {tech}
-                  </li>
-                ))}
-              </ul>
-              <p class="project__links">
-                {entry.data.repoUrl && (
-                  <a href={entry.data.repoUrl} target="_blank" rel="noopener">
-                    Repo <ExternalLink class="icon" size={14} aria-hidden="true" />
-                  </a>
-                )}
-                {entry.data.liveUrl && (
-                  <a href={entry.data.liveUrl} target="_blank" rel="noopener">
-                    Live <ExternalLink class="icon" size={14} aria-hidden="true" />
-                  </a>
-                )}
-              </p>
-            </header>
+      {renderedProjects.length > 0 ? (
+        <div class="work__list">
+          {renderedProjects.map(({ entry, Content }) => (
+            <article class="project" id={`work-${entry.slug}`}>
+              <header class="project__header">
+                <p class="project__eyebrow">
+                  <FileTerminal class="icon" size={15} aria-hidden="true" />
+                  /work/{entry.slug}
+                </p>
+                <p class="project__date">
+                  <Calendar class="icon" size={14} aria-hidden="true" />
+                  {formatDate(entry.data.date)}
+                </p>
+                <h3>{entry.data.title}</h3>
+                <p class="project__desc">{entry.data.description}</p>
+                <ul class="project__tech">
+                  {entry.data.tech.map((tech) => (
+                    <li>
+                      <Tags class="icon" size={13} aria-hidden="true" />
+                      {tech}
+                    </li>
+                  ))}
+                </ul>
+                <p class="project__links">
+                  {entry.data.repoUrl && (
+                    <a href={entry.data.repoUrl} target="_blank" rel="noopener">
+                      Repo <ExternalLink class="icon" size={14} aria-hidden="true" />
+                    </a>
+                  )}
+                  {entry.data.liveUrl && (
+                    <a href={entry.data.liveUrl} target="_blank" rel="noopener">
+                      Live <ExternalLink class="icon" size={14} aria-hidden="true" />
+                    </a>
+                  )}
+                </p>
+              </header>
 
-            {entry.data.cover && (
-              <div class="project__cover">
-                <Image src={entry.data.cover} alt={entry.data.title} />
+              {entry.data.cover && (
+                <div class="project__cover">
+                  <Image src={entry.data.cover} alt={entry.data.title} />
+                </div>
+              )}
+
+              <div class="project__body markdown-body">
+                <Content />
               </div>
-            )}
-
-            <div class="project__body markdown-body">
-              <Content />
-            </div>
-          </article>
-        ))}
-      </div>
-    ) : (
-      <p class="work__empty">Case files in progress.</p>
-    )}
-  </section>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <p class="work__empty">Case files in progress.</p>
+      )}
+    </section>
+  )}
 
   <section id="contact" class="section-block" aria-labelledby="contact-heading">
     <header class="block-header block-header--magenta">
